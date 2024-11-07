@@ -23,13 +23,13 @@ jobs:
         working-directory: ./task_3
         run: npm run allure:generate
       - name: Upload Results
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-results
           path: ./task_3/allure-results 
       - name: Publishing Allure artifact to Github Actions
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure-report
