@@ -14,13 +14,11 @@ jobs:
         working-directory: ./task_3
         run: npm install
       
-      - name: Cypress install
-        uses: cypress-io/github-action@v4
-        with:
-          browser: chrome
-          runTests: false
+      - name: Install Cypress
+        working-directory: ./task_3
+        run: npx cypress install
       
-      - name: Cypress run
+      - name: Run Cypress tests
         working-directory: ./task_3
         run: npm run cy:run
       
@@ -36,7 +34,7 @@ jobs:
           name: allure-results
           path: ./task_3/allure-results
       
-      - name: Publishing Allure artifact to Github Actions
+      - name: Publish Allure report to GitHub Actions
         uses: actions/upload-artifact@v4
         if: always()
         with:
