@@ -1,0 +1,60 @@
+version: 2.1
+
+orbs:
+  browser-tools: circleci/browser-tools@1.4.8
+  aws-cli: circleci/aws-cli@1.4.1
+
+jobs:
+  cypress-run:
+    docker:
+      - image: cypress/browsers:node16.13.0-chrome91-ff89  
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Run Cypress tests
+          command: npm run cy:run
+
+      - run:
+          name: Generate Allure report
+          command: npm run allure:generate
+
+      - run:
+          name: Copy Allure history
+          command: |
+            aws s3 cp --recursive s3://your-s3-bucket/reports/history $(pwd)/allure-results/history
+          when: always
+
+      - run:
+          name: Delete previous attachments
+          command: aws s3 rm s3://your-s3-bucket/reports/data/attachments --recursive
+          when: always
+
+      - run:
+          name: Delete previous test cases
+          command: aws s3 rm s3://your-s3-bucket/reports/data/test-cases --recursive
+          when: always
+
+      - run:
+          name: Upload Allure report to S3
+          command: aws s3 sync $(pwd)/allure-report s3://your-s3-bucket/reports
+          when: always
+
+      - store_artifacts:
+          path: allure-report
+          destination: allure-report
+
+      - store_artifacts:
+          path: allure-results
+          destination: allure-results
+
+workflows:
+  version: 2
+  cypress-tests:
+    jobs:
+      - cypress-run:
+          context: stage-aws
