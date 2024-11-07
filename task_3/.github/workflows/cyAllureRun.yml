@@ -12,9 +12,6 @@ jobs:
       - name: Cypress install
         working-directory: ./task_3
         uses: cypress-io/github-action@v4
-        with:
-          browser: chrome
-          runTests: false
       - name: Cypress run
         working-directory: ./task_3
         run: npm run cy:run
