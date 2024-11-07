@@ -1,0 +1,26 @@
+{
+    "name": "dog-data-utility",
+    "version": "1.0.0",
+    "description": "CLI utility to process dog license data from a CSV file, performing various analyses.",
+    "main": "dogDataUtility.mjs",
+    "type": "module",
+    "scripts": {
+      "get-unique-breeds": "node dogDataUtility.mjs 2017.csv get-unique-breeds",
+      "get-unique-licenses": "node dogDataUtility.mjs 2017.csv get-unique-licenses",
+      "get-licenses-by-breed": "node dogDataUtility.mjs 2017.csv get-licenses-by-breed",
+      "get-top-dog-names": "node dogDataUtility.mjs 2017.csv get-top-dog-names",
+      "get-license-issues-by-dates": "node dogDataUtility.mjs 2017.csv get-license-issues-by-dates 2017-02-01 2017-12-31"
+    },
+    "bin": {
+      "dog-data-utility": "./dogDataUtility.mjs"
+    },
+    "author": "dreamquality",
+    "license": "MIT",
+    "dependencies": {
+      "csv-parser": "^3.0.0"
+    },
+    "engines": {
+      "node": ">=20.0.0"
+    }
+  }
+  
