@@ -9,31 +9,40 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Cypress install
+      
+      - name: Install dependencies
         working-directory: ./task_3
+        run: npm install
+      
+      - name: Cypress install
         uses: cypress-io/github-action@v4
         with:
           browser: chrome
           runTests: false
+      
       - name: Cypress run
         working-directory: ./task_3
         run: npm run cy:run
+      
       - name: Generate Allure report
         if: always()
         working-directory: ./task_3
         run: npm run allure:generate
+      
       - name: Upload Results
         uses: actions/upload-artifact@v1
         if: always()
         with:
           name: allure-results
-          path: ./task_3/allure-results 
+          path: ./task_3/allure-results
+      
       - name: Publishing Allure artifact to Github Actions
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: allure-report
           path: ./task_3/allure-report
+      
       - name: Deploy report
         uses: JamesIves/github-pages-deploy-action@4.1.3
         if: always()
